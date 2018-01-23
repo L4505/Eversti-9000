@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>    
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Eversti"
+             x:Class="Eversti.EverstiMain">
+    <StackLayout>
+        <Label Text=" EVERSTI 9000 " />
+        <Label Text="{Binding Test}" />
+        <Label Text="{Binding DisplayItem[0].Id}" />
+        <StackLayout Orientation="Horizontal">
+            <Label Text="viimeksi nautittu: " />
+            <Label Text="{Binding DisplayItem[0].Date}" />
+        </StackLayout>
+
+        <Button Text="Lisää" Clicked="AddItem"/>
+        <Button Text="Poista"  Clicked="DeleteItem"/>
+        <Button Text="Tuhoa kaikki" Clicked="DeleteAll"/>
+    </StackLayout>
+    
+    <!--<ListView ListView.RowHeight="150">
+        
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{Binding ListItems.Id}" />
+                        <Label Text="{Binding ListItems.Date}" />                        
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.Footer>
+            <StackLayout>
+                <Button Text="Lisää" Clicked="AddItem"/>
+                <Button Text="Poista"  Clicked="DeleteItem"/>
+                <Button Text="Tuhoa kaikki" Clicked="DeleteAll"/>
+            </StackLayout>
+        </ListView.Footer>
+    </ListView>-->
+    
+</ContentPage>
