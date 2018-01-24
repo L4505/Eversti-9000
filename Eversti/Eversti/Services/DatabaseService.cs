@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,22 +13,13 @@ namespace Eversti.DatabaseServices
         private SQLiteConnection database;
         private DateTime dTime;
         private object collisionLock = new object();
-
-        //private ObservableCollection<Item> HiddenItems { get; set; }
-        //public ObservableCollection<Item> Items
-        //{
-        //    get
-        //    {
-        //        return HiddenItems;
-        //    }
-
-        //    set
-        //    {
-        //        HiddenItems = Items;
-        //    }
-        //}
-
+        /// <summary>
+        /// Collection to store all the Items from the database.
+        /// </summary>
         public ObservableCollection<Item> Items { get; set; }
+        /// <summary>
+        /// Collection to store the latest item from the Items collection.
+        /// </summary>
         public ObservableCollection<Item> DisplayItem { get; set; }
 
         public DatabaseService()
@@ -37,30 +27,25 @@ namespace Eversti.DatabaseServices
             database = DependencyService.Get<IDatabaseConnection>().DbConnection();
             database.CreateTable<Item>();
             this.Items = new ObservableCollection<Item>(database.Table<Item>());
-            
+            // If the database is empty, add one default entry to the collection Items
             if (!database.Table<Item>().Any())
             {
-                this.Items.Add(new Item { Date = "foo" });
+                this.Items.Add(new Item { Date = "Aloita jo tänään!" });
             }
+            // Create the default entry to also to the DisplayItem collection
             this.DisplayItem = new ObservableCollection<Item>(Items);
-
         }
-
-        //public ObservableCollection<Item> GetItems()
-        //{
-
-        //    return this.Items;
-        //}
-       
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void AddItem()
         {
             dTime = DateTime.Now;
             this.Items.Add(new Item
             {
-                Date = dTime.ToShortDateString() //dTime.ToShortDateString() 
+                Date = dTime.ToShortDateString() 
             });
-            //SetDisplayItem();
+            
             SaveItem(this.Items.Last());
         }
 
@@ -78,27 +63,7 @@ namespace Eversti.DatabaseServices
                 }
             }
         }
-
-        //        var itemInstance = this.Items;
-        //            {
-        //                if (itemInstance.Id != 0)
-        //                {
-        //                    lock (collisionLock)
-        //                    {
-        //                        database.Update(itemInstance);
-        //                    }
-        //}
-        //                else
-        //                {
-        //                    lock (collisionLock)
-        //                    {
-        //                        database.Insert(itemInstance);
-        //                    }                    
-        //                }               
-        //            }
-        //            return Items;
-        //        }
-
+        
         public void DeleteItem()
         {
             var i = Items.Last();
@@ -106,32 +71,13 @@ namespace Eversti.DatabaseServices
             if (lastId != 0 && lastId > 0)
             {
                 database.Delete<Item>(lastId);
-               
-                //return Items;
+                Items.Remove(i);
             }
             if (lastId == 0)
             {
-
+                // displayalert Tyhjää täynnä
             }
-            // return Items;
-
-
-            //database.Delete<Item>(database.Query<Item>("SELECT last_insert_rowid()"));
         }
-
-        //public void DeleteOneItem()
-        //{
-        //    int i = ItemId; 
-        //    if (i != 0)
-        //    {
-        //        lock (collisionLock)
-        //        {
-        //            database.Delete<Item>(i);
-        //        }
-        //    }
-        //    GetId();
-
-        //}
 
         public void DeleteAll()
         {
@@ -143,8 +89,7 @@ namespace Eversti.DatabaseServices
 
             this.Items = new ObservableCollection<Item>
               (database.Table<Item>());
-
-            //return Items;
+            Items.Add(new Item { Date = "Aloita jo Tänään!" });
         }
     }
 }

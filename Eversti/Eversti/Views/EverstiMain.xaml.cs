@@ -11,21 +11,15 @@ namespace Eversti
 
         public EverstiMain()
         {
+            InitializeComponent();
             ViewModel = new MainViewModel();
             BindingContext = ViewModel;
-            InitializeComponent();
-            
         }
 
         public void AddItem() => ViewModel.AddItem();
 
         public void DeleteItem() => ViewModel.DeleteItem();
 
-        public void DeleteAll()
-        {
-            ViewModel.DeleteAll();
-            //ViewModel = new MainViewModel();
-            //BindingContext = ViewModel;
-        }
+        public void DeleteAll() => ViewModel.DeleteAll();
     }
 }

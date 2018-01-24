@@ -1,41 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>    
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Eversti"
              x:Class="Eversti.EverstiMain">
     <StackLayout>
         <Label Text=" EVERSTI 9000 " />
-        <Label Text="{Binding Test}" />
-        <Label Text="{Binding DisplayItem[0].Id}" />
+        <Label Text="{Binding LatestItem.Id}" />
         <StackLayout Orientation="Horizontal">
             <Label Text="viimeksi nautittu: " />
-            <Label Text="{Binding DisplayItem[0].Date}" />
+            <Label Text="{Binding LatestItem.Date}" />
         </StackLayout>
-
         <Button Text="Lisää" Clicked="AddItem"/>
-        <Button Text="Poista"  Clicked="DeleteItem"/>
+        <Button Text="Poista" Clicked="DeleteItem"/>
         <Button Text="Tuhoa kaikki" Clicked="DeleteAll"/>
-    </StackLayout>
-    
-    <!--<ListView ListView.RowHeight="150">
-        
+ <!--<ListView ItemsSource="{Binding DisplayItem}">        
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="{Binding ListItems.Id}" />
-                        <Label Text="{Binding ListItems.Date}" />                        
+                        <Label Text="{Binding Id}" />
+                        <Label Text="{Binding Date}" />                        
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>
-        </ListView.ItemTemplate>
-        <ListView.Footer>
-            <StackLayout>
-                <Button Text="Lisää" Clicked="AddItem"/>
-                <Button Text="Poista"  Clicked="DeleteItem"/>
-                <Button Text="Tuhoa kaikki" Clicked="DeleteAll"/>
-            </StackLayout>
-        </ListView.Footer>
+        </ListView.ItemTemplate>     
     </ListView>-->
-    
+    </StackLayout>
 </ContentPage>
