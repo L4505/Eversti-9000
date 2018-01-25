@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Eversti.Models;
@@ -8,88 +9,79 @@ using Xamarin.Forms;
 
 namespace Eversti.DatabaseServices
 {
+    /// <summary>
+    /// A simple CRUD class to handle the database operations
+    /// </summary>
     public class DatabaseService
     {
         private SQLiteConnection database;
-        private DateTime dTime;
-        private object collisionLock = new object();
+        private readonly object collisionLock = new object();
+        private CultureInfo Culture = new CultureInfo("fi-FI");
+
         /// <summary>
         /// Collection to store all the Items from the database.
         /// </summary>
         public ObservableCollection<Item> Items { get; set; }
-        /// <summary>
-        /// Collection to store the latest item from the Items collection.
-        /// </summary>
-        public ObservableCollection<Item> DisplayItem { get; set; }
 
+        /// <summary>
+        /// Connects to the SQLite database, creates the table, populates Items
+        /// </summary>
+        /// <remarks>
+        /// <see cref="Items"/>
+        /// </remarks>
         public DatabaseService()
         {
             database = DependencyService.Get<IDatabaseConnection>().DbConnection();
             database.CreateTable<Item>();
-            this.Items = new ObservableCollection<Item>(database.Table<Item>());
-            // If the database is empty, add one default entry to the collection Items
-            if (!database.Table<Item>().Any())
-            {
-                this.Items.Add(new Item { Date = "Aloita jo tänään!" });
-            }
-            // Create the default entry to also to the DisplayItem collection
-            this.DisplayItem = new ObservableCollection<Item>(Items);
+            ResetItems();            
         }
-        /// <summary>
-        /// 
-        /// </summary>
+
         public void AddItem()
         {
-            dTime = DateTime.Now;
-            this.Items.Add(new Item
+            var item = new Item
             {
-                Date = dTime.ToShortDateString() 
-            });
-            
-            SaveItem(this.Items.Last());
+                Date = DateTime.Now.ToString("g",
+                  CultureInfo.CreateSpecificCulture("fi-FI"))
+            };
+            Items.Add(item);
+            SaveItem(Items.Last());
         }
 
         public void SaveItem(Item i)
         {
             lock (collisionLock)
             {
-                if (i.Id != 0)
-                {
-                    database.Update(i);
-                }
-                else
-                {
-                    database.Insert(i);
-                }
+                if (i.Id != 0) database.Update(i);
+                else database.Insert(i);
             }
         }
-        
+
         public void DeleteItem()
         {
-            var i = Items.Last();
-            int lastId = i.Id;
-            if (lastId != 0 && lastId > 0)
-            {
-                database.Delete<Item>(lastId);
-                Items.Remove(i);
-            }
-            if (lastId == 0)
-            {
-                // displayalert Tyhjää täynnä
-            }
+            if (Items.Count <= 1) return;
+            var lastItem = Items.Last();
+            database.Delete<Item>(lastItem.Id);
+            Items.Remove(lastItem);
         }
 
         public void DeleteAll()
         {
             lock (collisionLock)
             {
-                this.database.DropTable<Item>();
-                this.database.CreateTable<Item>();
+                database.DropTable<Item>();
+                database.CreateTable<Item>();
             }
+            ResetItems();            
+        }
 
-            this.Items = new ObservableCollection<Item>
-              (database.Table<Item>());
-            Items.Add(new Item { Date = "Aloita jo Tänään!" });
+        private void ResetItems()
+        {
+            // Populate the collection from database
+            Items = new ObservableCollection<Item>(database.Table<Item>());
+            // If database is not empty -> return
+            if (database.Table<Item>().Any()) return;
+            // Add default row
+            Items.Add(new Item { Date = "Aloita jo tänään!" });
         }
     }
 }

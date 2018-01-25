@@ -2,28 +2,47 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Eversti"
-             x:Class="Eversti.EverstiMain">
+             x:Class="Eversti.EverstiMain"
+             Title="EVERSTI9000">
     <StackLayout>
-        <Label Text=" EVERSTI 9000 " />
-        <Label Text="{Binding LatestItem.Id}" />
-        <StackLayout Orientation="Horizontal">
-            <Label Text="viimeksi nautittu: " />
-            <Label Text="{Binding LatestItem.Date}" />
+        
+        
+        <Label Text="{Binding LatestItem}" 
+               FontSize="64"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand"
+               />
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+            <Label Text="Viimeisin: " 
+                   FontSize="Micro" 
+                   VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="EndAndExpand"/>
+            <Label Text="{Binding Date}" 
+                   FontSize="Micro" 
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="StartAndExpand"/>
         </StackLayout>
-        <Button Text="Lisää" Clicked="AddItem"/>
-        <Button Text="Poista" Clicked="DeleteItem"/>
-        <Button Text="Tuhoa kaikki" Clicked="DeleteAll"/>
- <!--<ListView ItemsSource="{Binding DisplayItem}">        
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="{Binding Id}" />
-                        <Label Text="{Binding Date}" />                        
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>     
-    </ListView>-->
+        
+            <Button Text="+" Clicked="AddItem" VerticalOptions="FillAndExpand" FontSize="85"/>
+        
     </StackLayout>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="Listaa" Activated="ListAll"
+               Priority="0" Order="Primary" />
+        <ToolbarItem Name="Poista" Activated="DeleteItem"
+               Priority="1" Order="Secondary" />
+        <ToolbarItem Name="Poista kaikki" Activated="DeleteAll"
+               Priority="2" Order="Secondary" />
+    </ContentPage.ToolbarItems>
 </ContentPage>
+
+<!--<Label Text="EVERSTI 9000" Style="{StaticResource h1}">
+    <Label.FormattedText>
+        <FormattedString>
+            <FormattedString.Spans>
+                <Span Text="Eversti"/>
+                <Span Text="9000" ForegroundColor="#555"/>
+            </FormattedString.Spans>
+        </FormattedString>
+    </Label.FormattedText>
+</Label>-->    

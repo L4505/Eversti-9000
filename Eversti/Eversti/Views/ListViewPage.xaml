@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Eversti.ListViewPage"
+             Padding="16">
+    <ContentPage.Content>
+        <ListView ItemsSource="{Binding DisplayItem}">
+            <ListView.Header>
+                <StackLayout HeightRequest="64" Orientation="Horizontal">
+                    <Label Text="Yhteensä"  HorizontalOptions="Center" FontSize="Medium"/>
+                    <Label Text="{Binding LatestItem}" HorizontalOptions="Center" FontSize="Medium" />
+                </StackLayout>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout>                        
+                        <Label Text="{Binding Date}" VerticalTextAlignment="Center" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>        
+    </ContentPage.Content>
+</ContentPage>

@@ -9,7 +9,7 @@ namespace Eversti
 		{
 			InitializeComponent();
 
-			MainPage = new EverstiMain();
+			MainPage = new NavigationPage(new EverstiMain());
 		}
 
         protected override void OnStart ()

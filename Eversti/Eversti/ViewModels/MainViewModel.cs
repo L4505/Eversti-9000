@@ -6,20 +6,27 @@ using Eversti.Models;
 
 namespace Eversti.ViewModels
 {
+    /// <summary>
+    /// Viewmodel class that is in between the view <seealso cref="EverstiMain"/> 
+    /// and <seealso cref="DatabaseService"/> handling the collections and passing input from 
+    /// the view to do database operations
+    /// </summary>
     class MainViewModel : INotifyPropertyChanged
     {
         private DatabaseService database;
 
-        public ObservableCollection<Item> DisplayItem
-        {
-            get { return database.Items; }           
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public Item LatestItem
-        {
-            get { return database.Items.Last(); }
-        }
+        /// <summary>DisplayItem property gets all the items from the database</summary>
+        public ObservableCollection<Item> DisplayItem => database.Items;        
 
+        /// <summary>The LatestItem property</summary>
+        /// <value>The LatestItem property gets it value from the last item of the collection Items</value>
+        public int LatestItem => database.Items.Count() - 1;
+
+        public string Date => database.Items.Last().Date;
+
+        // Instantiate the database helper
         public MainViewModel()
         {
             database = new DatabaseService();            
@@ -28,29 +35,32 @@ namespace Eversti.ViewModels
         public void AddItem()
         {
             database.AddItem();
-            OnPropertyChanged(nameof(DisplayItem));
-            OnPropertyChanged(nameof(LatestItem));
+            Update();
         }
 
         public void DeleteItem()
         {
             database.DeleteItem();
-            OnPropertyChanged(nameof(DisplayItem));
-            OnPropertyChanged(nameof(LatestItem));
+            Update();
         }
 
         public void DeleteAll()
         {
             database.DeleteAll();
-            OnPropertyChanged(nameof(DisplayItem));
-            OnPropertyChanged(nameof(LatestItem));
+            Update();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
             this.PropertyChanged?.Invoke(this,
               new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Update()
+        {
+            OnPropertyChanged(nameof(DisplayItem));
+            OnPropertyChanged(nameof(LatestItem));
+            OnPropertyChanged(nameof(Date));
         }
     }
 }

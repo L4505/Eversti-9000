@@ -4,7 +4,15 @@
              x:Class="Eversti.App">
 	<Application.Resources>
 
-		<!-- Application resource dictionary -->
+        <ResourceDictionary>
+
+            <Style x:Key="h1" TargetType="Label">
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+            </Style>
+            
+        </ResourceDictionary>
 
 	</Application.Resources>
     
