@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Eversti"
              x:Class="Eversti.EverstiMain"
-             Title="EVERSTI9000">
+             Title="EVERSTI9000"
+             Padding="8">
     <StackLayout>
         
         
@@ -31,8 +32,10 @@
                Priority="0" Order="Primary" />
         <ToolbarItem Name="Poista" Activated="DeleteItem"
                Priority="1" Order="Secondary" />
-        <ToolbarItem Name="Poista kaikki" Activated="DeleteAll"
+        <ToolbarItem Name="Lisää useita" Activated="AddOld"
                Priority="2" Order="Secondary" />
+        <ToolbarItem Name="Poista kaikki" Activated="DeleteAll"
+               Priority="3" Order="Secondary" />
     </ContentPage.ToolbarItems>
 </ContentPage>
 

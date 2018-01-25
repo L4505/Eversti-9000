@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using Eversti.DatabaseServices;
 using Eversti.Models;
+using Xamarin.Forms;
 
 namespace Eversti.ViewModels
 {
@@ -22,7 +23,7 @@ namespace Eversti.ViewModels
 
         /// <summary>The LatestItem property</summary>
         /// <value>The LatestItem property gets it value from the last item of the collection Items</value>
-        public int LatestItem => database.Items.Count() - 1;
+        public int LatestItem => database.Items.Count()-1;
 
         public string Date => database.Items.Last().Date;
 
@@ -48,6 +49,19 @@ namespace Eversti.ViewModels
         {
             database.DeleteAll();
             Update();
+        }
+
+        public bool AddOldTo(string s)
+        {
+            
+            if (int.TryParse(s, out int t))
+            {
+                database.MultiAdd(t);
+               
+                Update();
+                return true;
+            }
+            return false;            
         }
 
         private void OnPropertyChanged(string propertyName)

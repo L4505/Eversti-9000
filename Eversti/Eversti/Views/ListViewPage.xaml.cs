@@ -15,6 +15,7 @@ namespace Eversti
             ViewModel = new MainViewModel();
             // Set the glorious viewmodel as the views (xaml) data bindingcontext
             BindingContext = ViewModel;
+ 
         }
 	}
 }

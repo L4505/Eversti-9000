@@ -40,6 +40,7 @@ namespace Eversti.DatabaseServices
         {
             var item = new Item
             {
+               
                 Date = DateTime.Now.ToString("g",
                   CultureInfo.CreateSpecificCulture("fi-FI"))
             };
@@ -81,7 +82,27 @@ namespace Eversti.DatabaseServices
             // If database is not empty -> return
             if (database.Table<Item>().Any()) return;
             // Add default row
-            Items.Add(new Item { Date = "Aloita jo tänään!" });
+            var item = new Item
+            {
+                Date = "Aloita jo tänään!"
+            };
+            Items.Add(item);
+            SaveItem(Items.Last());
+            
+        }
+        public void MultiAdd(int u)
+        {
+            //lock (collisionLock)
+            //{
+            //    database.DropTable<Item>();
+            //    database.CreateTable<Item>();
+            //}
+            //ResetItems();
+            for (int i = 0; i < u; i++)
+            {
+                AddItem();
+            }
+            
         }
     }
 }
